@@ -79,6 +79,7 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
           "overflow:hidden",
           "cursor:pointer",
           "will-change:transform",
+          "user-select:none",
         ].join(";")
 
         const img = document.createElement("img")
@@ -247,7 +248,7 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden bg-white"
+      className="relative overflow-hidden bg-white select-none"
       style={{ width: canvasW, height: canvasH, cursor: "grab" }}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}

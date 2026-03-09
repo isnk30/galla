@@ -21,7 +21,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "spring", stiffness: 340, damping: 38 }}
+            transition={{ type: "spring", stiffness: 500, damping: 50 }}
           >
             {/* Close button — left edge, vertically centered */}
             <motion.button
@@ -66,7 +66,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
                             href={photo.cameraUrl}
                             target="_blank"
                             rel="noopener noreferrer"
-                            className="underline underline-offset-2 hover:opacity-70 transition-opacity"
+                            className="underline underline-offset-2 opacity-60 hover:opacity-100 transition-opacity"
                           >
                             {photo.camera}
                           </a>
