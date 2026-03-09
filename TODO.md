@@ -1,9 +1,13 @@
 # TODO
 
 - [ ] Mobile layout
-- [ ] Info button
-- [ ] Link styling
 - [ ] Performance
+- [ ] Add written works to grid
 - [ ] Favicon update (not working)
-- [ ] Make images unselectable
 - [ ] Work on flow view
+- [ ] Loading state
+- [x] Link styling
+- [x] Make images unselectable
+- [x] View switcher inactive hover state
+- [x] Info button
+- [x] Info popup
