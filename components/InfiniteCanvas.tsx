@@ -9,6 +9,8 @@ const GAP = 48
 const TILE_W = CELL_W + GAP
 const TILE_H = CELL_H + GAP
 const MIN_SCALE = 0.45
+const STAGGER_MS = 50
+const INTRO_DURATION = 800
 
 type Props = {
   photos: Photo[]
@@ -21,12 +23,13 @@ type Cell = {
   el: HTMLDivElement
   img: HTMLImageElement
   photoIdx: number
+  introDelay: number
 }
 
 export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
-  const offsetRef = useRef({ x: 0, y: 0 })
+  const offsetRef = useRef({ x: GAP / 2, y: GAP / 2 })
   const dragging = useRef(false)
   const lastPos = useRef({ x: 0, y: 0 })
   const velocity = useRef({ x: 0, y: 0 })
@@ -87,7 +90,8 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
         img.draggable = false
         el.appendChild(img)
 
-        const cell: Cell = { col, row, el, img, photoIdx: -1 }
+        const introDelay = ((col - startCol) + (row - startRow)) * STAGGER_MS
+        const cell: Cell = { col, row, el, img, photoIdx: -1, introDelay }
         cellsRef.current.push(cell)
 
         el.addEventListener("click", () => {
@@ -106,8 +110,10 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
     let lastTileShiftX = Infinity
     let lastTileShiftY = Infinity
     let lastPhotoCount = 0
+    let introStartTime: number | null = null
 
     const loop = () => {
+      const now = performance.now()
       const { x: ox, y: oy } = offsetRef.current
       const baseX = ((ox % TILE_W) + TILE_W) % TILE_W
       const baseY = ((oy % TILE_H) + TILE_H) % TILE_H
@@ -115,8 +121,9 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
       const tileShiftY = Math.floor(oy / TILE_H)
       const photoCount = photosRef.current.length
 
-      // Force reassignment when photos first load
+      // Force reassignment when photos first load; kick off intro animation
       if (photoCount !== lastPhotoCount) {
+        if (introStartTime === null && photoCount > 0) introStartTime = now
         lastPhotoCount = photoCount
         lastTileShiftX = Infinity
       }
@@ -134,9 +141,20 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
         const smooth = t * t * (3 - 2 * t)
         const scale = MIN_SCALE + (1 - MIN_SCALE) * smooth
 
+        let introMult = introStartTime === null ? 0 : 1
+        if (introStartTime !== null) {
+          const elapsed = now - introStartTime - cell.introDelay
+          if (elapsed <= 0) {
+            introMult = 0
+          } else if (elapsed < INTRO_DURATION) {
+            const t = elapsed / INTRO_DURATION
+            introMult = 1 - Math.pow(1 - t, 4)
+          }
+        }
+
         cell.el.style.left = `${x}px`
         cell.el.style.top = `${y}px`
-        cell.el.style.transform = `scale(${scale})`
+        cell.el.style.transform = `scale(${scale * introMult})`
 
         if (shiftChanged && photoCount > 0) {
           const worldCol = cell.col - tileShiftX
@@ -248,7 +266,7 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
   return (
     <div
       ref={containerRef}
-      className="relative overflow-hidden bg-white select-none"
+      className="relative overflow-hidden select-none z-[2]"
       style={{ width: canvasW, height: canvasH, cursor: "grab" }}
       onMouseDown={onMouseDown}
       onMouseMove={onMouseMove}
