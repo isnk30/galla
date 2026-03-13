@@ -21,7 +21,7 @@ function cardWidth(photo: Photo) {
 
 export default function FlowView({ photos }: Props) {
   const stripRef = useRef<HTMLDivElement>(null)
-  const rafRef = useRef<number>()
+  const rafRef = useRef<number | undefined>(undefined)
 
   const items = [...photos, ...photos]
   const loopWidth = photos.reduce((sum, p) => sum + cardWidth(p) + GAP, 0)
