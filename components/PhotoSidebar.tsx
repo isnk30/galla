@@ -77,7 +77,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
             <div className="flex flex-col items-stretch justify-center h-full px-5 gap-3">
               {photo && (
                 <>
-                  <div className="relative w-full" style={{ aspectRatio: "3/4" }}>
+                  <div className="relative w-full" style={{ aspectRatio: `${photo.width}/${photo.height}` }}>
                     <Image
                       src={photo.src}
                       alt={photo.date ?? "photo"}

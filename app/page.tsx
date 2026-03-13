@@ -15,6 +15,8 @@ export default function Home() {
   const [loading, setLoading] = useState(true)
   const [selectedPhoto, setSelectedPhoto] = useState<Photo | null>(null)
   const [view, setView] = useState<"canvas" | "flow">("canvas")
+  const [canvasIntroKey, setCanvasIntroKey] = useState(0)
+  const [canvasExiting, setCanvasExiting] = useState(false)
   const [infoOpen, setInfoOpen] = useState(false)
 
   useEffect(() => {
@@ -34,12 +36,23 @@ export default function Home() {
       <InfiniteCanvas
         photos={photos}
         onPhotoClick={setSelectedPhoto}
+        replayKey={canvasIntroKey}
+        isExiting={canvasExiting}
+        onExitDone={() => { setView("flow"); setCanvasExiting(false) }}
       />
       <AnimatePresence>
         {view === "flow" && <FlowView key="flow" photos={photos} />}
       </AnimatePresence>
       <PhotoSidebar photo={selectedPhoto} onClose={() => setSelectedPhoto(null)} />
-      <BottomNav view={view} onViewChange={(v) => { setView(v); if (v === "flow") setSelectedPhoto(null) }} />
+      <BottomNav view={view} onViewChange={(v) => {
+        if (v === "flow") {
+          setSelectedPhoto(null)
+          setCanvasExiting(true)
+        } else {
+          setView("canvas")
+          setCanvasIntroKey(k => k + 1)
+        }
+      }} />
       <InfoButton onClick={() => setInfoOpen(true)} />
       <InfoModal open={infoOpen} onClose={() => setInfoOpen(false)} />
     </main>

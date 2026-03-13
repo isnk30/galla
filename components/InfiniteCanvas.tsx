@@ -11,10 +11,14 @@ const TILE_H = CELL_H + GAP
 const MIN_SCALE = 0.45
 const STAGGER_MS = 50
 const INTRO_DURATION = 800
+const EXIT_DURATION = 550
 
 type Props = {
   photos: Photo[]
   onPhotoClick: (photo: Photo) => void
+  replayKey?: number
+  isExiting?: boolean
+  onExitDone?: () => void
 }
 
 type Cell = {
@@ -26,7 +30,7 @@ type Cell = {
   introDelay: number
 }
 
-export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
+export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, isExiting = false, onExitDone }: Props) {
   const containerRef = useRef<HTMLDivElement>(null)
   const gridRef = useRef<HTMLDivElement>(null)
   const offsetRef = useRef({ x: GAP / 2, y: GAP / 2 })
@@ -40,8 +44,14 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
   // Keep latest props accessible inside RAF without re-creating the loop
   const photosRef = useRef<Photo[]>(photos)
   const onClickRef = useRef(onPhotoClick)
+  const replayKeyRef = useRef(replayKey)
+  const isExitingRef = useRef(isExiting)
+  const onExitDoneRef = useRef(onExitDone)
   photosRef.current = photos
   onClickRef.current = onPhotoClick
+  replayKeyRef.current = replayKey
+  isExitingRef.current = isExiting
+  onExitDoneRef.current = onExitDone
 
   const [windowSize, setWindowSize] = useState({ w: 1440, h: 900 })
   useEffect(() => {
@@ -111,9 +121,23 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
     let lastTileShiftY = Infinity
     let lastPhotoCount = 0
     let introStartTime: number | null = null
+    let lastReplayKey = replayKeyRef.current
+    let exitStartTime: number | null = null
+    let exitFired = false
 
     const loop = () => {
       const now = performance.now()
+
+      if (replayKeyRef.current !== lastReplayKey) {
+        lastReplayKey = replayKeyRef.current
+        introStartTime = now
+        exitStartTime = null
+        exitFired = false
+      }
+
+      if (isExitingRef.current && exitStartTime === null) {
+        exitStartTime = now
+      }
       const { x: ox, y: oy } = offsetRef.current
       const baseX = ((ox % TILE_W) + TILE_W) % TILE_W
       const baseY = ((oy % TILE_H) + TILE_H) % TILE_H
@@ -152,9 +176,23 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
           }
         }
 
+        let exitMult = 1
+        if (exitStartTime !== null) {
+          const stagger = cell.introDelay * 0.25
+          const elapsed = now - exitStartTime - stagger
+          if (elapsed <= 0) {
+            exitMult = 1
+          } else if (elapsed < EXIT_DURATION) {
+            const t = elapsed / EXIT_DURATION
+            exitMult = 1 - t * t * t
+          } else {
+            exitMult = 0
+          }
+        }
+
         cell.el.style.left = `${x}px`
         cell.el.style.top = `${y}px`
-        cell.el.style.transform = `scale(${scale * introMult})`
+        cell.el.style.transform = `scale(${scale * introMult * exitMult})`
 
         if (shiftChanged && photoCount > 0) {
           const worldCol = cell.col - tileShiftX
@@ -172,6 +210,14 @@ export default function InfiniteCanvas({ photos, onPhotoClick }: Props) {
 
       lastTileShiftX = tileShiftX
       lastTileShiftY = tileShiftY
+
+      if (exitStartTime !== null && !exitFired) {
+        const maxStagger = Math.max(...cellsRef.current.map(c => c.introDelay)) * 0.25
+        if (now - exitStartTime > EXIT_DURATION + maxStagger) {
+          exitFired = true
+          onExitDoneRef.current?.()
+        }
+      }
 
       rafRef.current = requestAnimationFrame(loop)
     }

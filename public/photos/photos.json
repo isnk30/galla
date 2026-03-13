@@ -1,36 +1,48 @@
 [
   {
     "src": "/photos/1.JPG",
+    "width": 3024,
+    "height": 4032,
     "date": "MAR 8, 2026",
     "camera": "SOFT APP",
     "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
   },
   {
     "src": "/photos/2.JPG",
+    "width": 3024,
+    "height": 4032,
     "date": "MAR 4, 2026",
     "camera": "SOFT APP",
     "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
   },
   {
     "src": "/photos/3.JPG",
+    "width": 2561,
+    "height": 3254,
     "date": "MAR 4, 2026",
     "camera": "SOFT APP",
     "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
   },
   {
     "src": "/photos/4.jpeg",
+    "width": 3024,
+    "height": 4032,
     "date": "MAY 30, 2025",
     "camera": "IOS CAMERA",
     "cameraUrl": "https://www.apple.com/iphone/"
   },
   {
     "src": "/photos/5.jpg",
+    "width": 1238,
+    "height": 1650,
     "date": "SEPT 4, 2023",
     "camera": "IOS CAMERA",
     "cameraUrl": "https://www.apple.com/iphone/"
   },
   {
     "src": "/photos/6.jpg",
+    "width": 3021,
+    "height": 3021,
     "date": "MAR 10, 2026",
     "camera": "SOFT APP",
     "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
