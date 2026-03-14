@@ -6,12 +6,15 @@ import type { Photo } from "@/lib/photos"
 const CELL_W = 200
 const CELL_H = 260
 const GAP = 48
-const TILE_W = CELL_W + GAP
-const TILE_H = CELL_H + GAP
 const MIN_SCALE = 0.45
 const STAGGER_MS = 50
 const INTRO_DURATION = 800
 const EXIT_DURATION = 550
+const MOBILE_SCALE = 0.85
+
+function imgUrl(src: string) {
+  return `/_next/image?url=${encodeURIComponent(src)}&w=640&q=75`
+}
 
 type Props = {
   photos: Photo[]
@@ -63,6 +66,20 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
 
   const { w: canvasW, h: canvasH } = windowSize
 
+  // Preload all optimized image URLs into the browser cache so cell
+  // reassignment is instant with no visible blank frames.
+  const preloadedRef = useRef(new Set<string>())
+  useEffect(() => {
+    photos.forEach(photo => {
+      const url = imgUrl(photo.src)
+      if (!preloadedRef.current.has(url)) {
+        preloadedRef.current.add(url)
+        const img = new window.Image()
+        img.src = url
+      }
+    })
+  }, [photos])
+
   // Build the DOM grid and start the RAF loop imperatively.
   // React never touches the grid cells — zero re-renders during panning.
   useEffect(() => {
@@ -74,8 +91,16 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
     grid.innerHTML = ""
     cellsRef.current = []
 
-    const cols = Math.ceil(canvasW / TILE_W) + 4
-    const rows = Math.ceil(canvasH / TILE_H) + 4
+    // Scale cells down on mobile
+    const mob = canvasW < 640 ? MOBILE_SCALE : 1
+    const cellW = Math.round(CELL_W * mob)
+    const cellH = Math.round(CELL_H * mob)
+    const gap   = Math.round(GAP * mob)
+    const tileW = cellW + gap
+    const tileH = cellH + gap
+
+    const cols = Math.ceil(canvasW / tileW) + 4
+    const rows = Math.ceil(canvasH / tileH) + 4
     const startCol = -Math.floor(cols / 2) - 1
     const startRow = -Math.floor(rows / 2) - 1
     const endCol = Math.ceil(cols / 2) + 1
@@ -86,8 +111,8 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
         const el = document.createElement("div")
         el.style.cssText = [
           "position:absolute",
-          `width:${CELL_W}px`,
-          `height:${CELL_H}px`,
+          `width:${cellW}px`,
+          `height:${cellH}px`,
           "transform-origin:center",
           "overflow:hidden",
           "cursor:pointer",
@@ -139,11 +164,12 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
       if (isExitingRef.current && exitStartTime === null) {
         exitStartTime = now
       }
+
       const { x: ox, y: oy } = offsetRef.current
-      const baseX = ((ox % TILE_W) + TILE_W) % TILE_W
-      const baseY = ((oy % TILE_H) + TILE_H) % TILE_H
-      const tileShiftX = Math.floor(ox / TILE_W)
-      const tileShiftY = Math.floor(oy / TILE_H)
+      const baseX = ((ox % tileW) + tileW) % tileW
+      const baseY = ((oy % tileH) + tileH) % tileH
+      const tileShiftX = Math.floor(ox / tileW)
+      const tileShiftY = Math.floor(oy / tileH)
       const photoCount = photosRef.current.length
 
       // Force reassignment when photos first load; kick off intro animation
@@ -156,11 +182,11 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
       const shiftChanged = tileShiftX !== lastTileShiftX || tileShiftY !== lastTileShiftY
 
       for (const cell of cellsRef.current) {
-        const x = cell.col * TILE_W + baseX + canvasW / 2 - TILE_W / 2
-        const y = cell.row * TILE_H + baseY + canvasH / 2 - TILE_H / 2
+        const x = cell.col * tileW + baseX + canvasW / 2 - tileW / 2
+        const y = cell.row * tileH + baseY + canvasH / 2 - tileH / 2
 
-        const cx = x + CELL_W / 2 - canvasW / 2
-        const cy = y + CELL_H / 2 - canvasH / 2
+        const cx = x + cellW / 2 - canvasW / 2
+        const cy = y + cellH / 2 - canvasH / 2
         const dist = Math.sqrt(cx * cx + cy * cy)
         const t = Math.max(0, 1 - dist / maxDist)
         const smooth = t * t * (3 - 2 * t)
@@ -204,7 +230,7 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
             photoCount
           if (idx !== cell.photoIdx) {
             cell.photoIdx = idx
-            cell.img.src = photosRef.current[idx].src
+            cell.img.src = imgUrl(photosRef.current[idx].src)
           }
         }
       }

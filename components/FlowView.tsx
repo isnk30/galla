@@ -9,7 +9,8 @@ type Props = {
   photos: Photo[]
 }
 
-const CARD_H = 500
+const CARD_H_DESKTOP = 500
+const CARD_H_MOBILE = 400
 const GAP = 40
 const TARGET_SPEED = 110 / 60   // px per frame at 60fps (~110px/s)
 const EXIT_SPEED = TARGET_SPEED * 12
@@ -18,8 +19,8 @@ const DECAY = 0.03
 const DECAY_EXIT = 0.07
 const DECAY_HOVER = 0.1
 
-function cardWidth(photo: Photo) {
-  return Math.round(CARD_H * (photo.width / photo.height))
+function cardWidth(photo: Photo, h: number) {
+  return Math.round(h * (photo.width / photo.height))
 }
 
 export default function FlowView({ photos }: Props) {
@@ -32,8 +33,18 @@ export default function FlowView({ photos }: Props) {
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const hoveredRef = useRef<number | null>(null)
 
+  const [cardH, setCardH] = useState(CARD_H_DESKTOP)
+  useEffect(() => {
+    const update = () => setCardH(window.innerWidth < 640 ? CARD_H_MOBILE : CARD_H_DESKTOP)
+    update()
+    window.addEventListener("resize", update)
+    return () => window.removeEventListener("resize", update)
+  }, [])
+
+  const isTouch = typeof window !== "undefined" && ("ontouchstart" in window || navigator.maxTouchPoints > 0)
+
   const items = [...photos, ...photos]
-  const loopWidth = photos.reduce((sum, p) => sum + cardWidth(p) + GAP, 0)
+  const loopWidth = photos.reduce((sum, p) => sum + cardWidth(p, cardH) + GAP, 0)
 
   useEffect(() => {
     let pos = 0
@@ -54,9 +65,9 @@ export default function FlowView({ photos }: Props) {
 
     rafRef.current = requestAnimationFrame(step)
     return () => { if (rafRef.current) cancelAnimationFrame(rafRef.current) }
-  }, [loopWidth])
+  }, [loopWidth, cardH])
 
-  const totalStripWidth = loopWidth * 2
+  const totalStripWidth = photos.reduce((sum, p) => sum + cardWidth(p, cardH) + GAP, 0) * 2
 
   return (
     <motion.div
@@ -78,7 +89,7 @@ export default function FlowView({ photos }: Props) {
         }}
       >
         {items.map((photo, i) => {
-          const w = cardWidth(photo)
+          const w = cardWidth(photo, cardH)
           const dimmed = hoveredIdx !== null && hoveredIdx !== i
           return (
             <div
@@ -90,15 +101,15 @@ export default function FlowView({ photos }: Props) {
                 transition: "opacity 0.3s ease",
               }}
               className="flex flex-col gap-3"
-              onMouseEnter={() => { hoveredRef.current = i; setHoveredIdx(i) }}
-              onMouseLeave={() => { hoveredRef.current = null; setHoveredIdx(null) }}
+              onMouseEnter={isTouch ? undefined : () => { hoveredRef.current = i; setHoveredIdx(i) }}
+              onMouseLeave={isTouch ? undefined : () => { hoveredRef.current = null; setHoveredIdx(null) }}
             >
               <Image
                 src={photo.src}
                 alt={photo.date ?? "photo"}
                 width={photo.width}
                 height={photo.height}
-                style={{ width: w, height: CARD_H }}
+                style={{ width: w, height: cardH }}
                 sizes={`${w}px`}
               />
 
