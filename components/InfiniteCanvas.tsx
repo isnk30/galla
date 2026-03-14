@@ -117,6 +117,7 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
 
     // RAF loop — all panning, scaling, and photo assignment happens here
     const maxDist = Math.sqrt((canvasW / 2) ** 2 + (canvasH / 2) ** 2)
+    const maxExitStagger = Math.max(...cellsRef.current.map(c => c.introDelay)) * 0.25
     let lastTileShiftX = Infinity
     let lastTileShiftY = Infinity
     let lastPhotoCount = 0
@@ -212,8 +213,7 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
       lastTileShiftY = tileShiftY
 
       if (exitStartTime !== null && !exitFired) {
-        const maxStagger = Math.max(...cellsRef.current.map(c => c.introDelay)) * 0.25
-        if (now - exitStartTime > EXIT_DURATION + maxStagger) {
+        if (now - exitStartTime > EXIT_DURATION + maxExitStagger) {
           exitFired = true
           onExitDoneRef.current?.()
         }

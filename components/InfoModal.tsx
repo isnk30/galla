@@ -37,19 +37,13 @@ export default function InfoModal({ open, onClose }: Props) {
               </button>
             </div>
             <p className="font-mono text-[12px] tracking-[-0.04em] text-black opacity-70 leading-relaxed">
-              this is a photo gallery designed and built by{" "}
-              <a
-                href="https://x.com/isnk30"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="underline underline-offset-2 opacity-60 hover:opacity-100 transition-opacity"
-              >
-                israel kamuanga
-              </a>
-              , and consisting of his own photography. this was made in a couple short days to give him a place to put up the best photos he's taken, and encourage him to take more. the date under this text should be somewhat recent, otherwise, he's slacking. enjoy!
+              first, im not a photographer and won't ever claim to be, but i do like taking pictures. this project i've designed and built is a place for me to put the best photos i've taken. but to make it a bit more fun i've add touches of my own drawing to each picture.
+            </p>
+            <p className="font-mono text-[12px] tracking-[-0.04em] text-black opacity-70 leading-relaxed mt-3">
+              the goal is to use this as pressure for myself to find more picture worthy moments more often and have a nice place to put them all. hope you enjoy.
             </p>
             <p className="font-mono text-[12px] tracking-[-0.04em] text-black opacity-50 leading-relaxed mt-3">
-              last updated: march 9, 2026
+              last updated: mar 10, 2026.
             </p>
           </motion.div>
         </>

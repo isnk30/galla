@@ -46,5 +46,21 @@
     "date": "MAR 10, 2026",
     "camera": "SOFT APP",
     "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
+  },
+  {
+    "src": "/photos/7.jpg",
+    "width": 3024,
+    "height": 4032,
+    "date": "MAY 16, 2025",
+    "camera": "IOS CAMERA",
+    "cameraUrl": "https://www.apple.com/iphone/"
+  },
+  {
+    "src": "/photos/8.jpg",
+    "width": 3024,
+    "height": 3650,
+    "date": "MAY 30, 2026",
+    "camera": "IOS CAMERA",
+    "cameraUrl": "https://www.apple.com/iphone/"
   }
 ]
