@@ -16,6 +16,16 @@ function imgUrl(src: string) {
   return `/_next/image?url=${encodeURIComponent(src)}&w=640&q=75`
 }
 
+/** Coprime-ish weights — spreads photos without diagonal (row+col) stripes */
+const PHOTO_MIX_P = 7919
+const PHOTO_MIX_Q = 6907
+
+function photoIndexAt(worldCol: number, worldRow: number, photoCount: number): number {
+  if (photoCount <= 0) return 0
+  const v = worldRow * PHOTO_MIX_P + worldCol * PHOTO_MIX_Q
+  return ((v % photoCount) + photoCount) % photoCount
+}
+
 type Props = {
   photos: Photo[]
   onPhotoClick: (photo: Photo) => void
@@ -218,17 +228,14 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
           }
         }
 
-        cell.el.style.left = `${x}px`
-        cell.el.style.top = `${y}px`
-        cell.el.style.transform = `scale(${scale * introMult * exitMult})`
+        cell.el.style.left = "0"
+        cell.el.style.top = "0"
+        cell.el.style.transform = `translate3d(${x}px, ${y}px, 0) scale(${scale * introMult * exitMult})`
 
         if (shiftChanged && photoCount > 0) {
           const worldCol = cell.col - tileShiftX
           const worldRow = cell.row - tileShiftY
-          const idx =
-            (((worldRow % photoCount) + photoCount) % photoCount +
-              (((worldCol % photoCount) + photoCount) % photoCount)) %
-            photoCount
+          const idx = photoIndexAt(worldCol, worldRow, photoCount)
           if (idx !== cell.photoIdx) {
             cell.photoIdx = idx
             cell.img.src = imgUrl(photosRef.current[idx].src)
