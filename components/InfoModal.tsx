@@ -13,7 +13,7 @@ export default function InfoModal({ open, onClose }: Props) {
       {open && (
         <>
           <motion.div
-            className="fixed inset-0 bg-black z-40"
+            className="fixed inset-0 z-40 bg-black"
             initial={{ opacity: 0 }}
             animate={{ opacity: 0.6 }}
             exit={{ opacity: 0 }}
@@ -21,30 +21,55 @@ export default function InfoModal({ open, onClose }: Props) {
             onClick={onClose}
           />
           <motion.div
-            className="fixed z-50 top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 bg-white border border-[#DFDFDF] p-4 w-[370px]"
-            initial={{ opacity: 0, scale: 0.95 }}
-            animate={{ opacity: 1, scale: 1 }}
-            exit={{ opacity: 0, scale: 0.95 }}
-            transition={{ duration: 0.12 }}
+            className="fixed top-1/2 left-1/2 z-50 w-[min(370px,calc(100vw-2rem))] -translate-x-1/2 -translate-y-1/2 bg-white p-4 shadow-[0_1px_2px_rgba(0,0,0,0.06),0_0_0_1px_rgba(0,0,0,0.06)]"
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: 8 }}
+            transition={{ duration: 0.2 }}
           >
-            <div className="flex items-center justify-between mb-4">
-              <span className="font-mono text-[16px] tracking-[-0.04em] text-black">hey hey</span>
+            <motion.div
+              className="mb-4 flex items-center justify-between"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", duration: 0.3, bounce: 0, delay: 0.05 }}
+            >
+              <span className="text-balance font-mono text-[16px] tracking-[-0.04em] text-black">
+                hey hey
+              </span>
               <button
+                type="button"
                 onClick={onClose}
-                className="font-mono text-[12px] tracking-[-0.04em] text-black opacity-50 hover:opacity-100 hover:bg-[#eee] px-[9px] py-[3px] transition-all"
+                className="flex min-h-10 min-w-10 items-center justify-center font-mono text-[12px] tracking-[-0.04em] text-black opacity-50 transition-[opacity,background-color,transform] duration-150 hover:bg-[#eee] hover:opacity-100 active:scale-[0.96]"
               >
                 X
               </button>
-            </div>
-            <p className="font-mono text-[12px] tracking-[-0.04em] text-black opacity-70 leading-relaxed">
-              first, im not a photographer and won't ever claim to be, but i do like taking pictures. this project i've designed and built is a place for me to put the best photos i've taken. but to make it a bit more fun i've add touches of my own drawing to each picture.
-            </p>
-            <p className="font-mono text-[12px] tracking-[-0.04em] text-black opacity-70 leading-relaxed mt-3">
+            </motion.div>
+            <motion.p
+              className="text-pretty font-mono text-[12px] leading-relaxed tracking-[-0.04em] text-black opacity-70"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", duration: 0.3, bounce: 0, delay: 0.15 }}
+            >
+              {
+                "first, im not a photographer and won't ever claim to be, but i do like taking pictures. this project i've designed and built is a place for me to put the best photos i've taken. but to make it a bit more fun i've add touches of my own drawing to each picture."
+              }
+            </motion.p>
+            <motion.p
+              className="mt-3 text-pretty font-mono text-[12px] leading-relaxed tracking-[-0.04em] text-black opacity-70"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", duration: 0.3, bounce: 0, delay: 0.25 }}
+            >
               the goal is to use this as pressure for myself to find more picture worthy moments more often and have a nice place to put them all. hope you enjoy.
-            </p>
-            <p className="font-mono text-[12px] tracking-[-0.04em] text-black opacity-50 leading-relaxed mt-3">
+            </motion.p>
+            <motion.p
+              className="mt-3 font-mono text-[12px] leading-relaxed tracking-[-0.04em] text-black opacity-50 text-pretty"
+              initial={{ opacity: 0, y: 6 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ type: "spring", duration: 0.3, bounce: 0, delay: 0.35 }}
+            >
               last updated: may 7, 2026.
-            </p>
+            </motion.p>
           </motion.div>
         </>
       )}

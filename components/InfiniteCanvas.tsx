@@ -121,7 +121,8 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
         ].join(";")
 
         const img = document.createElement("img")
-        img.style.cssText = "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;"
+        img.style.cssText =
+          "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,0.1)"
         img.draggable = false
         el.appendChild(img)
 

@@ -53,22 +53,26 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
             exit={{ x: "100%" }}
-            transition={{ type: "spring", stiffness: 500, damping: 50 }}
+            transition={{ type: "spring", stiffness: 500, damping: 50, bounce: 0 }}
           >
-            {/* Resize handle — left edge, desktop only */}
+            {/* Resize handle — 40px hit strip; narrow visual affordance */}
             <div
               onMouseDown={onResizeStart}
-              className="hidden sm:block absolute left-0 top-0 bottom-0 w-1 cursor-col-resize"
+              className="hidden sm:flex absolute left-0 top-0 bottom-0 w-10 -translate-x-1/2 cursor-col-resize items-center justify-center"
               onMouseEnter={() => setHandleHovered(true)}
               onMouseLeave={() => setHandleHovered(false)}
-            />
+              aria-hidden
+            >
+              <div className="h-full w-px bg-transparent" />
+            </div>
 
             {/* Close button — left edge on desktop, centered below metadata on mobile */}
             <motion.button
+              type="button"
               onClick={onClose}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="hidden sm:flex absolute left-0 top-1/2 -translate-x-full -translate-y-1/2 bg-white border border-[#DFDFDF] border-r-0 w-8 h-10 items-center justify-center text-[#555] text-xl leading-[0] pb-0.5 hover:bg-[#f5f5f5]"
+              className="hidden sm:flex absolute left-0 top-1/2 min-h-10 min-w-10 -translate-x-full -translate-y-1/2 items-center justify-center border border-[#DFDFDF] border-r-0 bg-white pb-0.5 text-xl leading-[0] text-[#555] transition-transform hover:bg-[#f5f5f5] active:scale-[0.96]"
             >
               »
             </motion.button>
@@ -82,7 +86,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
                       src={photo.src}
                       alt={photo.date ?? "photo"}
                       fill
-                      className="object-cover"
+                      className="object-cover shadow-[0_0_0_1px_rgba(0,0,0,0.1)]"
                       sizes="(max-width: 640px) 100vw, 420px"
                     />
                   </div>
@@ -119,10 +123,11 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
 
                   {/* Mobile close button — centered below metadata */}
                   <motion.button
+                    type="button"
                     onClick={onClose}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="sm:hidden self-center bg-white border border-[#DFDFDF] w-8 h-8 flex items-center justify-center text-[#555] text-xl leading-none hover:bg-[#f5f5f5]"
+                    className="flex size-10 items-center justify-center self-center border border-[#DFDFDF] bg-white text-xl leading-none text-[#555] transition-transform hover:bg-[#f5f5f5] active:scale-[0.96] sm:hidden"
                   >
                     »
                   </motion.button>

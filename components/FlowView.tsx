@@ -28,7 +28,10 @@ export default function FlowView({ photos }: Props) {
   const rafRef = useRef<number | undefined>(undefined)
   const [isPresent] = usePresence()
   const isPresentRef = useRef(isPresent)
-  isPresentRef.current = isPresent
+
+  useEffect(() => {
+    isPresentRef.current = isPresent
+  }, [isPresent])
 
   const [hoveredIdx, setHoveredIdx] = useState<number | null>(null)
   const hoveredRef = useRef<number | null>(null)
@@ -109,6 +112,7 @@ export default function FlowView({ photos }: Props) {
                 alt={photo.date ?? "photo"}
                 width={photo.width}
                 height={photo.height}
+                className="shadow-[0_0_0_1px_rgba(0,0,0,0.1)]"
                 style={{ width: w, height: cardH }}
                 sizes={`${w}px`}
               />
