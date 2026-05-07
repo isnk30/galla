@@ -39,7 +39,7 @@ export default function InfoModal({ open, onClose }: Props) {
               <button
                 type="button"
                 onClick={onClose}
-                className="flex min-h-10 min-w-10 items-center justify-center font-mono text-[12px] tracking-[-0.04em] text-black opacity-50 transition-[opacity,background-color,transform] duration-150 hover:bg-[#eee] hover:opacity-100 active:scale-[0.96]"
+                className="flex min-h-8 min-w-8 items-center justify-center font-mono text-[12px] tracking-[-0.04em] text-black opacity-50 transition-[opacity,background-color,transform] duration-150 hover:bg-[#eee] hover:opacity-100 active:scale-[0.96]"
               >
                 X
               </button>
