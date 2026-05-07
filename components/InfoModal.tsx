@@ -43,7 +43,7 @@ export default function InfoModal({ open, onClose }: Props) {
               the goal is to use this as pressure for myself to find more picture worthy moments more often and have a nice place to put them all. hope you enjoy.
             </p>
             <p className="font-mono text-[12px] tracking-[-0.04em] text-black opacity-50 leading-relaxed mt-3">
-              last updated: mar 10, 2026.
+              last updated: may 7, 2026.
             </p>
           </motion.div>
         </>
