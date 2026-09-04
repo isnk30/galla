@@ -3,7 +3,6 @@
 import { useSyncExternalStore } from "react"
 import { motion, useReducedMotion } from "motion/react"
 import CornerButton from "@/components/CornerButton"
-import { THEME_STORAGE_KEY } from "@/lib/theme"
 
 function subscribe(onChange: () => void) {
   const observer = new MutationObserver(onChange)
@@ -30,11 +29,6 @@ export default function ThemeToggle() {
   function toggleTheme() {
     const theme = getSnapshot() ? "light" : "dark"
     document.documentElement.dataset.theme = theme
-    try {
-      localStorage.setItem(THEME_STORAGE_KEY, theme)
-    } catch {
-      // The toggle still works when browser storage is unavailable.
-    }
   }
 
   return (

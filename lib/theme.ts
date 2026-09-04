@@ -1,9 +1,6 @@
-export const THEME_STORAGE_KEY = "galla-theme"
-
-// Restore the saved theme before the page paints. New visitors start in light mode.
+// Read the device appearance once before the page paints. Manual changes after
+// this point stay independent until the next page load.
 export const themeScript = `
-  try {
-    document.documentElement.dataset.theme =
-      localStorage.getItem("${THEME_STORAGE_KEY}") === "dark" ? "dark" : "light";
-  } catch {}
+  document.documentElement.dataset.theme =
+    window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
 `
