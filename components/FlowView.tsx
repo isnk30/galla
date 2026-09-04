@@ -74,7 +74,7 @@ export default function FlowView({ photos }: Props) {
 
   return (
     <motion.div
-      className="fixed inset-0 bg-white z-[15] flex items-center overflow-hidden"
+      className="fixed inset-0 bg-background z-[15] flex items-center overflow-hidden"
       style={{ pointerEvents: isPresent ? "auto" : "none" }}
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
@@ -112,19 +112,19 @@ export default function FlowView({ photos }: Props) {
                 alt={photo.date ?? "photo"}
                 width={photo.width}
                 height={photo.height}
-                className="shadow-[0_0_0_1px_rgba(0,0,0,0.1)]"
+                className="shadow-photo"
                 style={{ width: w, height: cardH }}
                 sizes={`${w}px`}
               />
 
               <div className="flex items-center justify-between">
                 {photo.date && (
-                  <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-black">
+                  <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-ink">
                     {photo.date}
                   </span>
                 )}
                 {photo.camera && (
-                  <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-black">
+                  <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-ink">
                     Taken with{" "}
                     {photo.cameraUrl ? (
                       <a

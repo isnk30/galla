@@ -48,7 +48,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            className={`fixed top-0 right-0 bottom-0 w-full z-30 flex flex-col sm:border-l bg-white transition-colors duration-150 ${handleHovered ? "border-[#999]" : "border-[#DFDFDF]"}`}
+            className={`fixed top-0 right-0 bottom-0 w-full z-30 flex flex-col sm:border-l bg-surface transition-colors duration-150 ${handleHovered ? "border-border-hover" : "border-border"}`}
             style={{ width: typeof window !== "undefined" && window.innerWidth >= 640 ? width : undefined }}
             initial={{ x: "100%" }}
             animate={{ x: 0 }}
@@ -72,7 +72,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
               onClick={onClose}
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="hidden sm:flex absolute left-0 top-1/2 min-h-10 min-w-10 -translate-x-full -translate-y-1/2 items-center justify-center border border-[#DFDFDF] border-r-0 bg-white pb-0.5 text-xl leading-[0] text-[#555] transition-transform hover:bg-[#f5f5f5] active:scale-[0.96]"
+              className="hidden sm:flex absolute left-0 top-1/2 min-h-10 min-w-10 -translate-x-full -translate-y-1/2 items-center justify-center border border-border border-r-0 bg-surface pb-0.5 text-xl leading-[0] text-muted transition-transform hover:bg-subtle-hover active:scale-[0.96]"
             >
               »
             </motion.button>
@@ -86,7 +86,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
                       src={photo.src}
                       alt={photo.date ?? "photo"}
                       fill
-                      className="object-cover shadow-[0_0_0_1px_rgba(0,0,0,0.1)]"
+                      className="object-cover shadow-photo"
                       sizes="(max-width: 640px) 100vw, 420px"
                     />
                   </div>
@@ -98,12 +98,12 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
                     transition={{ delay: 0.15, duration: 0.2 }}
                   >
                     {photo.date && (
-                      <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-black">
+                      <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-ink">
                         {photo.date}
                       </span>
                     )}
                     {photo.camera && (
-                      <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-black">
+                      <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-ink">
                         Taken with{" "}
                         {photo.cameraUrl ? (
                           <a
@@ -127,7 +127,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
                     onClick={onClose}
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="flex size-10 items-center justify-center self-center border border-[#DFDFDF] bg-white text-xl leading-none text-[#555] transition-transform hover:bg-[#f5f5f5] active:scale-[0.96] sm:hidden"
+                    className="flex size-10 items-center justify-center self-center border border-border bg-surface text-xl leading-none text-muted transition-transform hover:bg-subtle-hover active:scale-[0.96] sm:hidden"
                   >
                     »
                   </motion.button>

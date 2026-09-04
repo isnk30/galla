@@ -9,12 +9,12 @@ type Props = {
 
 export default function BottomNav({ view, onViewChange }: Props) {
   return (
-    <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-[2px] bg-white p-[5px] shadow-[0_1px_2px_rgba(0,0,0,0.06),0_0_0_1px_rgba(0,0,0,0.06)]">
+    <div className="fixed bottom-10 left-1/2 -translate-x-1/2 z-20 flex items-center gap-[2px] bg-surface p-[5px] shadow-control">
       <button
         type="button"
         onClick={() => onViewChange("canvas")}
         className={`flex min-h-8 min-w-10 items-center justify-center px-3 text-[12px] font-mono uppercase tracking-[-0.04em] transition-[transform,opacity,background-color] duration-150 active:scale-[0.96] ${
-          view === "canvas" ? "bg-[#eee] text-black" : "text-black opacity-50 hover:opacity-100 hover:bg-[#eee]"
+          view === "canvas" ? "bg-hover text-ink" : "text-ink opacity-50 hover:opacity-100 hover:bg-hover"
         }`}
       >
         Canvas
@@ -23,7 +23,7 @@ export default function BottomNav({ view, onViewChange }: Props) {
         type="button"
         onClick={() => onViewChange("flow")}
         className={`flex min-h-8 min-w-10 items-center justify-center px-3 text-[12px] font-mono uppercase tracking-[-0.04em] transition-[transform,opacity,background-color] duration-150 active:scale-[0.96] ${
-          view === "flow" ? "bg-[#eee] text-black" : "text-black opacity-50 hover:opacity-100 hover:bg-[#eee]"
+          view === "flow" ? "bg-hover text-ink" : "text-ink opacity-50 hover:opacity-100 hover:bg-hover"
         }`}
       >
         Flow

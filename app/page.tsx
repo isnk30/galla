@@ -7,6 +7,7 @@ import FlowView from "@/components/FlowView"
 import PhotoSidebar from "@/components/PhotoSidebar"
 import BottomNav from "@/components/BottomNav"
 import InfoButton from "@/components/InfoButton"
+import ThemeToggle from "@/components/ThemeToggle"
 import InfoModal from "@/components/InfoModal"
 import type { Photo } from "@/lib/photos"
 
@@ -27,11 +28,11 @@ export default function Home() {
   }, [])
 
   return (
-    <main className="flex w-screen h-screen overflow-hidden bg-white relative">
+    <main className="flex w-screen h-screen overflow-hidden bg-background relative">
       <div
         className={`fixed inset-0 flex items-center justify-center pointer-events-none z-[1] transition-opacity duration-[800ms] delay-[600ms] ${loading ? "opacity-100" : "opacity-0"}`}
       >
-        <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-black">Loading...</span>
+        <span className="font-mono text-[12px] uppercase tracking-[-0.04em] text-ink">Loading...</span>
       </div>
       <InfiniteCanvas
         photos={photos}
@@ -54,6 +55,7 @@ export default function Home() {
         }
       }} />
       <InfoButton onClick={() => setInfoOpen(true)} />
+      <ThemeToggle />
       <InfoModal open={infoOpen} onClose={() => setInfoOpen(false)} />
     </main>
   )

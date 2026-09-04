@@ -60,11 +60,13 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
   const replayKeyRef = useRef(replayKey)
   const isExitingRef = useRef(isExiting)
   const onExitDoneRef = useRef(onExitDone)
-  photosRef.current = photos
-  onClickRef.current = onPhotoClick
-  replayKeyRef.current = replayKey
-  isExitingRef.current = isExiting
-  onExitDoneRef.current = onExitDone
+  useEffect(() => {
+    photosRef.current = photos
+    onClickRef.current = onPhotoClick
+    replayKeyRef.current = replayKey
+    isExitingRef.current = isExiting
+    onExitDoneRef.current = onExitDone
+  }, [photos, onPhotoClick, replayKey, isExiting, onExitDone])
 
   const [windowSize, setWindowSize] = useState({ w: 1440, h: 900 })
   useEffect(() => {
@@ -132,7 +134,7 @@ export default function InfiniteCanvas({ photos, onPhotoClick, replayKey = 0, is
 
         const img = document.createElement("img")
         img.style.cssText =
-          "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;box-shadow:0 0 0 1px rgba(0,0,0,0.1)"
+          "position:absolute;inset:0;width:100%;height:100%;object-fit:cover;pointer-events:none;box-shadow:0 0 0 1px var(--image-outline)"
         img.draggable = false
         el.appendChild(img)
 
