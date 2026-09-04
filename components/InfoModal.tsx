@@ -68,7 +68,7 @@ export default function InfoModal({ open, onClose }: Props) {
               animate={{ opacity: 1, y: 0 }}
               transition={{ type: "spring", duration: 0.3, bounce: 0, delay: 0.35 }}
             >
-              last updated: may 7, 2026.
+              last updated: sep 4, 2026.
             </motion.p>
           </motion.div>
         </>

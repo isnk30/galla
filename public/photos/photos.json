@@ -94,5 +94,69 @@
     "date": "MAY 4, 2026",
     "camera": "SOFT APP",
     "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
+  },
+  {
+    "src": "/photos/13.jpg",
+    "width": 3024,
+    "height": 4032,
+    "date": "AUG 29, 2026",
+    "camera": "IOS CAMERA",
+    "cameraUrl": "https://www.apple.com/iphone/"
+  },
+  {
+    "src": "/photos/14.jpg",
+    "width": 3024,
+    "height": 4032,
+    "date": "JUL 14, 2026",
+    "camera": "IOS CAMERA",
+    "cameraUrl": "https://www.apple.com/iphone/"
+  },
+  {
+    "src": "/photos/15.JPG",
+    "width": 3024,
+    "height": 4032,
+    "date": "JUL 9, 2026",
+    "camera": "SOFT APP",
+    "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
+  },
+  {
+    "src": "/photos/16.jpg",
+    "width": 3024,
+    "height": 4032,
+    "date": "MAY 31, 2026",
+    "camera": "IOS CAMERA",
+    "cameraUrl": "https://www.apple.com/iphone/"
+  },
+  {
+    "src": "/photos/17.jpg",
+    "width": 3024,
+    "height": 4032,
+    "date": "MAY 29, 2026",
+    "camera": "IOS CAMERA",
+    "cameraUrl": "https://www.apple.com/iphone/"
+  },
+  {
+    "src": "/photos/18.JPG",
+    "width": 3024,
+    "height": 4032,
+    "date": "MAY 20, 2026",
+    "camera": "SOFT APP",
+    "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
+  },
+  {
+    "src": "/photos/19.JPG",
+    "width": 3024,
+    "height": 4032,
+    "date": "MAY 16, 2026",
+    "camera": "SOFT APP",
+    "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
+  },
+  {
+    "src": "/photos/20.JPG",
+    "width": 3024,
+    "height": 4032,
+    "date": "JUN 13, 2026",
+    "camera": "SOFT APP",
+    "cameraUrl": "https://x.com/jakedowsmith/status/2028848119564095905"
   }
 ]
