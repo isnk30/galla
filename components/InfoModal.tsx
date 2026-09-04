@@ -39,7 +39,8 @@ export default function InfoModal({ open, onClose }: Props) {
               <button
                 type="button"
                 onClick={onClose}
-                className="flex min-h-8 min-w-8 items-center justify-center font-mono text-[12px] tracking-[-0.04em] text-ink opacity-50 transition-[opacity,background-color,transform] duration-150 hover:bg-hover hover:opacity-100 active:scale-[0.96]"
+                aria-label="Close about dialog"
+                className="relative flex min-h-8 min-w-8 items-center justify-center font-mono text-[12px] tracking-[-0.04em] text-ink opacity-50 transition-[opacity,background-color,scale] duration-150 ease-out hover:bg-hover hover:opacity-100 motion-safe:active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink after:absolute after:-inset-1"
               >
                 X
               </button>

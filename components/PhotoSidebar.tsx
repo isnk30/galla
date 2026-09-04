@@ -70,9 +70,10 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
             <motion.button
               type="button"
               onClick={onClose}
+              aria-label="Close photo"
               exit={{ opacity: 0 }}
               transition={{ duration: 0.3 }}
-              className="hidden sm:flex absolute left-0 top-1/2 min-h-10 min-w-10 -translate-x-full -translate-y-1/2 items-center justify-center border border-border border-r-0 bg-surface pb-0.5 text-xl leading-[0] text-muted transition-transform hover:bg-subtle-hover active:scale-[0.96]"
+              className="hidden sm:flex absolute left-0 top-1/2 min-h-10 min-w-10 -translate-x-full -translate-y-1/2 items-center justify-center border border-border border-r-0 bg-surface pb-0.5 text-xl leading-[0] text-muted transition-[scale,background-color] duration-150 ease-out hover:bg-subtle-hover motion-safe:active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
             >
               »
             </motion.button>
@@ -86,7 +87,7 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
                       src={photo.src}
                       alt={photo.date ?? "photo"}
                       fill
-                      className="object-cover shadow-photo"
+                      className="object-cover photo-outline"
                       sizes="(max-width: 640px) 100vw, 420px"
                     />
                   </div>
@@ -125,9 +126,10 @@ export default function PhotoSidebar({ photo, onClose }: Props) {
                   <motion.button
                     type="button"
                     onClick={onClose}
+                    aria-label="Close photo"
                     exit={{ opacity: 0 }}
                     transition={{ duration: 0.3 }}
-                    className="flex size-10 items-center justify-center self-center border border-border bg-surface text-xl leading-none text-muted transition-transform hover:bg-subtle-hover active:scale-[0.96] sm:hidden"
+                    className="flex size-10 items-center justify-center self-center bg-surface text-xl leading-none text-muted shadow-control transition-[scale,background-color,box-shadow] duration-150 ease-out hover:bg-subtle-hover hover:shadow-control-hover motion-safe:active:scale-[0.96] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink sm:hidden"
                   >
                     »
                   </motion.button>

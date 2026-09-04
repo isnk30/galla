@@ -112,7 +112,7 @@ export default function FlowView({ photos }: Props) {
                 alt={photo.date ?? "photo"}
                 width={photo.width}
                 height={photo.height}
-                className="shadow-photo"
+                className="photo-outline"
                 style={{ width: w, height: cardH }}
                 sizes={`${w}px`}
               />
